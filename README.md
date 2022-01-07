@@ -11,6 +11,7 @@ The script recieve three params optional:
 | -s, --search | Search directory | src
 | -n, --name | Name of env file | env
 | -e, --exclude | Exclude directories to search | node_modules
+| -h, --help | Display this help text and exit | -
 
 ## Usage
 

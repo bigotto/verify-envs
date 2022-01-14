@@ -9,8 +9,9 @@ The script recieve three params optional:
 | Command | Description | Default
 | --- | --- | --- |
 | -s, --search | Search directory | src
-| -n, --name | Name of env file | env
+| -n, --name | Name of env file | .env
 | -e, --exclude | Exclude directories to search | node_modules
+| -j, --jump | Variables to skip while searching | -
 | -h, --help | Display this help text and exit | -
 
 ## Usage
@@ -18,7 +19,7 @@ The script recieve three params optional:
 Copy script inside your project
 
 ```bash
-./verify_env.sh -s src -n env -e dist,node_modules
+./verify_env.sh -s src -n .env -e dist,node_modules
 ```
 
 ## Contributing

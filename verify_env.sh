@@ -11,10 +11,11 @@ Help()
    echo "-s, --search     Take directory to search."
    echo "-n, --name       Take name of env file."
    echo "-e, --exclude    Take directories to exclude from search."
+   echo "-j, --jump       Take variables to skip"
    echo "-h  --help       Display this help text and exit"
 }
 
-options=$(getopt -o s:n:e:h -l source:,name:,exclude:,help  -- "$@")
+options=$(getopt -o s:n:e:j:h -l source:,name:,exclude:,jump:,help  -- "$@")
 
 eval set -- "$options"
 
@@ -30,22 +31,25 @@ while true; do
       envName="$2";
       shift 2 ;;
     -e | --exclude )
-        excludeDir="$2";
-        shift 2 ;;
+      excludeDir="$2";
+      shift 2 ;;
+    -j | --jump )
+      skipVariables="$2";
+      shift 2 ;;
     * )
       break;;
   esac
 done
 
 # Read env
-envVariables=$(grep -oP '^[A-Z]\w+' .${envName:=env})
+envVariables=$(grep -oP '^[A-Z]\w+' ${envName:=env})
 
 # Read envs from code
 envCode=$(grep -r -h -oP --exclude-dir=${excludeDir:=node_modules} '(?<=process.env.)[A-Z]\w+' $searchDir)
 
 for variable in $envCode
 do
-  if ! grep -q $variable <<<$envVariables
+  if ! grep -q $variable <<<$skipVariables && ! grep -q $variable <<<$envVariables
   then
     if ! grep -q $variable <<<$envNotFound
     then
